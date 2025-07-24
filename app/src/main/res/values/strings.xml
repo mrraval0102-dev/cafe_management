@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Cafe_project</string>
+    <string name="choose_your_nfavourite_coffee">Choose Your\nFavourite Coffee</string>
+    <string name="the_best_grain_the_finest_roast_n_the_powerfull_flavor">The best grain, the finest roast\n the powerfull flavor</string>
+    <string name="get_started">Get Started</string>
 </resources>
