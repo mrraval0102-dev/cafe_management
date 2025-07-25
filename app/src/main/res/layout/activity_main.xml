@@ -30,6 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="55dp"
                     android:layout_weight="1"
+                    android:autofillHints=""
                     android:background="@drawable/white_bg"
                     android:drawableStart="@drawable/search_icon"
                     android:drawablePadding="10dp"
