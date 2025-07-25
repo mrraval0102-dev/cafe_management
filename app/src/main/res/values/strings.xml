@@ -3,4 +3,12 @@
     <string name="choose_your_nfavourite_coffee">Choose Your\nFavourite Coffee</string>
     <string name="the_best_grain_the_finest_roast_n_the_powerfull_flavor">The best grain, the finest roast\n the powerfull flavor</string>
     <string name="get_started">Get Started</string>
+    <string name="search_here">Search Here....</string>
+    <string name="category">Category</string>
+    <string name="popular_coffees">Popular Coffees</string>
+    <string name="see_all">See All</string>
+    <string name="explorer">Explorer</string>
+    <string name="cart">Cart</string>
+    <string name="my_order">My Order</string>
+    <string name="profile">Profile</string>
 </resources>
