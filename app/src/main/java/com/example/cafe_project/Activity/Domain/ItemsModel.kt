@@ -10,4 +10,10 @@ data class ItemsModel(
     var rating:Double = 0.0,
     var numberInCart:Int = 0,
     var extra:String = "",
-): Serializable
+): Serializable {
+
+    val tite: String
+        get() {
+            TODO()
+        }
+}
