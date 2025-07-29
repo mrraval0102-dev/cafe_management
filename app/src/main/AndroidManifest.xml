@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cafe_project">
         <activity
+            android:name=".Activity.Login"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.SignUp"
+            android:exported="false" />
+        <activity
             android:name=".Activity.ItemListActivity"
             android:exported="false" />
         <activity

@@ -10,4 +10,28 @@
     <color name="grey">#8D8D8D</color>
     <color name="darkBrown">#220C01</color>
 
+    <!-- Backgrounds -->
+    <color name="coffee_background">#FFF7ED</color> <!-- Creamy Beige -->
+    <color name="coffee_surface">#F3E5D5</color>    <!-- Light Coffee Cream -->
+
+    <!-- Primary Colors -->
+    <color name="coffee_primary">#D17842</color>   <!-- Caramel Coffee -->
+    <color name="coffee_primary_dark">#3B3030</color>
+    <color name="coffee_accent">#C67C4E</color>    <!-- Mocha Touch -->
+
+    <!-- Text Colors -->
+    <color name="coffee_text_primary">#2D2D2D</color>  <!-- Almost Black -->
+    <color name="coffee_text_secondary">#7D7D7D</color> <!-- Grayish brown -->
+    <color name="coffee_hint">#AAAAAA</color>
+
+    <!-- Input Fields -->
+    <color name="input_background">#FFFFFF</color>
+    <color name="input_border">#DDDDDD</color>
+
+    <!-- Buttons -->
+    <color name="button_text">#FFFFFF</color>
+
+    <!-- Shadows or dividers -->
+    <color name="divider">#E0D4C1</color>
+
 </resources>

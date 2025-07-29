@@ -8,18 +8,27 @@ import com.example.cafe_project.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
 
-    lateinit var binding:ActivitySplashBinding
+    lateinit var binding: ActivitySplashBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding=ActivitySplashBinding.inflate(layoutInflater)
-
+        binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.startBtn.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+        val sharedPref = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val skip = sharedPref.getBoolean("skip", false)
 
+        if (skip) {
+            startActivity(Intent(this, Login::class.java))
+            finish()
+            return
         }
 
+        binding.startBtn.setOnClickListener {
+            sharedPref.edit().putBoolean("skip", true).apply()
+            startActivity(Intent(this, Login::class.java))
+            finish()
+        }
     }
 }

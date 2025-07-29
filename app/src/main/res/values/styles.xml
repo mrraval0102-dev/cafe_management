@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/coffee_primary</item>
+        <item name="colorPrimaryDark">@color/coffee_primary_dark</item>
+        <item name="colorAccent">@color/coffee_accent</item>
+        <item name="android:colorBackground">@color/coffee_background</item>
+    </style>
+
+    <style name="TitleText">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/coffee_text_primary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="InputField">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/rounded_input</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@color/coffee_text_primary</item>
+        <item name="android:textColorHint">@color/coffee_hint</item>
+    </style>
+
+    <style name="CoffeeButton">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:textColor">@color/button_text</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+</resources>

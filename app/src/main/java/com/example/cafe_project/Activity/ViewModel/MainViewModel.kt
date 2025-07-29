@@ -21,7 +21,6 @@ class MainViewModel:ViewModel() {
 
     fun loadPopular(): LiveData<MutableList<ItemsModel>>{
         return repository.loadpopular()
-
     }
 
 }
