@@ -1,65 +1,44 @@
 package com.example.cafe_project.Activity
 
 import android.os.Bundle
-import android.view.View
-import android.widget.GridLayout
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.example.cafe_project.Activity.ViewModel.MainViewModel
-import com.example.cafe_project.Adapter.CategoryAdapter
-import com.example.cafe_project.Adapter.PopularAdapter
+import androidx.fragment.app.Fragment
+import com.example.cafe_project.R
 import com.example.cafe_project.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding:ActivityMainBinding
-    private val viewModel = MainViewModel()
+    private lateinit var binding: ActivityMainBinding
+
+    private val explorerFragment = ExplorerFragment()
+    private val cartFragment = CartFragment()
+    private val favoriteFragment = FavoriteFragment()
+    private val ordersFragment = OrdersFragment()
+    private val profileFragment = ProfileFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initBanner()
-        intitCategory()
-        initPopular()
+        loadFragment(explorerFragment)
 
-    }
-
-    private fun initBanner() {
-        binding.progressBarBanner.visibility = View.VISIBLE
-        viewModel.loadBanner().observeForever {
-            Glide.with(this@MainActivity)
-                .load(it[0].url).into(binding.banner)
-            binding.progressBarBanner.visibility = View.GONE
+        val bottomNav: BottomNavigationView = binding.bottomNavigationView
+        bottomNav.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_explorer -> loadFragment(explorerFragment)
+                R.id.nav_cart -> loadFragment(cartFragment)
+                R.id.nav_favorite -> loadFragment(favoriteFragment)
+                R.id.nav_orders -> loadFragment(ordersFragment)
+                R.id.nav_profile -> loadFragment(profileFragment)
+            }
+            true
         }
-        viewModel.loadBanner()
     }
 
-    private fun intitCategory() {
-        binding.progressBarCategory.visibility = View.VISIBLE
-        viewModel.loadCategory().observeForever {
-            binding.recyclerViewCat.layoutManager = LinearLayoutManager(this@MainActivity,
-                LinearLayoutManager.HORIZONTAL, false)
-            binding.recyclerViewCat.adapter = CategoryAdapter(it)
-            binding.progressBarCategory.visibility = View.GONE
-        }
-        viewModel.loadCategory()
+    private fun loadFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainerView, fragment)
+            .commit()
     }
-
-    private fun initPopular() {
-        binding.progressBarPopular.visibility = View.VISIBLE
-        viewModel.loadPopular().observeForever {
-            binding.recyclerViewPopular.layoutManager = GridLayoutManager(this, 2)
-            binding.recyclerViewPopular.adapter = PopularAdapter(it)
-            binding.progressBarPopular.visibility = View.GONE
-        }
-        viewModel.loadPopular()
-
-
-    }
-
 }
