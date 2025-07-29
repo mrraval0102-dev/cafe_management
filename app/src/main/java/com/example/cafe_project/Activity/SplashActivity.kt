@@ -2,13 +2,14 @@ package com.example.cafe_project.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cafe_project.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivitySplashBinding
+    private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,19 +17,33 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val sharedPref = getSharedPreferences("UserPrefs", MODE_PRIVATE)
-        val skip = sharedPref.getBoolean("skip", false)
+        try {
+            val sharedPref = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+            val isSkip = sharedPref.getBoolean("skip", false)
+            val isLoggedIn = sharedPref.getBoolean("login", false)
 
-        if (skip) {
-            startActivity(Intent(this, Login::class.java))
-            finish()
-            return
-        }
+            when {
+                isSkip && isLoggedIn -> {
+                    navigateTo(MainActivity::class.java)
+                }
+                isSkip -> {
+                    navigateTo(Login::class.java)
+                }
+            }
 
-        binding.startBtn.setOnClickListener {
-            sharedPref.edit().putBoolean("skip", true).apply()
-            startActivity(Intent(this, Login::class.java))
-            finish()
-        }
+            binding.startBtn.setOnClickListener {
+                sharedPref.edit().putBoolean("skip", true).apply()
+                navigateTo(Login::class.java)
+            }
+        } catch (e: Exception) {
+        Log.e("SplashActivity", "Exception during onCreate: ${e.message}", e)
+    }
+
+
+    }
+
+    private fun navigateTo(destination: Class<*>) {
+        startActivity(Intent(this, destination))
+        finish()
     }
 }
