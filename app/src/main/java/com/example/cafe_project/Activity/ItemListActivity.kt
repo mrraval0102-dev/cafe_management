@@ -48,8 +48,8 @@ class ItemListActivity : AppCompatActivity() {
     }
 
     private fun getBundle() {
-        id = intent.getStringExtra("id ")!!
-        title = intent.getStringExtra("title ")!!
+        id = intent.getStringExtra("id")!!
+        title = intent.getStringExtra("title")!!
 
         binding.categoryTxt.text = title
     }

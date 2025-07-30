@@ -11,27 +11,27 @@ import com.example.cafe_project.Activity.Domain.ItemsModel
 import com.example.cafe_project.databinding.ViewholderItemPicLeftBinding
 import com.example.cafe_project.databinding.ViewholderItemPicRightBinding
 
-class ItemListCategoryAdapter(val items: MutableList<ItemsModel>)
+class ItemListCategoryAdapter(private val items: MutableList<ItemsModel>)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        companion object{
-            const val TYPE_ITEM1 = 0
-            const val TYPE_ITEM2 = 1
-        }
-    lateinit var context: Context
-    override fun getItemViewType(position: Int): Int {
-        return if(position % 2 == 0) TYPE_ITEM1 else TYPE_ITEM2
+    companion object {
+        const val TYPE_ITEM1 = 0
+        const val TYPE_ITEM2 = 1
     }
 
-    class ViewholderItem1(val binding: ViewholderItemPicRightBinding):
-    RecyclerView.ViewHolder(binding.root)
+    override fun getItemViewType(position: Int): Int {
+        return if (position % 2 == 0) TYPE_ITEM1 else TYPE_ITEM2
+    }
 
-    class ViewholderItem2(val binding: ViewholderItemPicLeftBinding):
+    class ViewholderItem1(val binding: ViewholderItemPicRightBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
+    class ViewholderItem2(val binding: ViewholderItemPicLeftBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        context = parent.context
-        return when (viewType){
+        val context = parent.context
+        return when (viewType) {
             TYPE_ITEM1 -> {
                 val binding = ViewholderItemPicRightBinding.inflate(
                     LayoutInflater.from(context), parent, false
@@ -44,55 +44,62 @@ class ItemListCategoryAdapter(val items: MutableList<ItemsModel>)
                 )
                 ViewholderItem2(binding)
             }
-
             else -> throw IllegalArgumentException("Invalid View type")
-
         }
     }
 
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-      val item = items[position]
-        fun bindingCommonData(
-            titleTxt: String,
-            priceTxt: String,
+        val item = items[position]
+
+        fun bindCommonData(
+            holder: RecyclerView.ViewHolder,
+            context: Context,
+            title: String,
+            price: String,
             rating: Float,
-            picUrl: String
-        ){
-
-            when(holder){
-                is ViewholderItem1 ->{
-                    holder.binding.titleTxt.text = titleTxt
-                    holder.binding.priceTxt.text = priceTxt
+            imageUrl: String
+        ) {
+            when (holder) {
+                is ViewholderItem1 -> {
+                    holder.binding.titleTxt.text = title
+                    holder.binding.priceTxt.text = price
                     holder.binding.ratingBar.rating = rating
-
-                    Glide.with(context).load(picUrl).into(holder.binding.picMain)
+                    Glide.with(context).load(imageUrl).into(holder.binding.picMain)
 
                     holder.itemView.setOnClickListener {
                         val intent = Intent(context, DetailActivity::class.java)
-                        intent.putExtra("object", items[position])
+                        intent.putExtra("object", item)
                         context.startActivity(intent)
                     }
                 }
 
-                is ViewholderItem2 ->{
-                    holder.binding.titleTxt.text = titleTxt
-                    holder.binding.priceTxt.text = priceTxt
+                is ViewholderItem2 -> {
+                    holder.binding.titleTxt.text = title
+                    holder.binding.priceTxt.text = price
                     holder.binding.ratingBar.rating = rating
-
-                    Glide.with(context).load(picUrl).into(holder.binding.picMain)
+                    Glide.with(context).load(imageUrl).into(holder.binding.picMain)
 
                     holder.itemView.setOnClickListener {
                         val intent = Intent(context, DetailActivity::class.java)
-                        intent.putExtra("object", items[position])
+                        intent.putExtra("object", item)
                         context.startActivity(intent)
                     }
                 }
             }
         }
-        bindingCommonData(
-            item.tite,"${item.price} USD ", item.rating.toFloat(),item.picUrl[0]
+
+        val context = holder.itemView.context
+        val imageUrl = item.picUrl.firstOrNull() ?: ""
+
+        bindCommonData(
+            holder,
+            context,
+            item.title,
+            "${item.price} USD",
+            item.rating.toFloat(),
+            imageUrl
         )
     }
 }
