@@ -16,7 +16,7 @@ class ItemListCategoryAdapter(val items: MutableList<ItemsModel>)
 
         companion object{
             const val TYPE_ITEM1 = 0
-            const val TYPE_ITEM2 = 0
+            const val TYPE_ITEM2 = 1
         }
     lateinit var context: Context
     override fun getItemViewType(position: Int): Int {

@@ -5,8 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.cafe_project.Activity.Domain.BannerModel
 import com.example.cafe_project.Activity.Domain.CategoryModel
 import com.example.cafe_project.Activity.Domain.ItemsModel
-import com.google.firebase.Firebase
-import com.google.firebase.database.ChildEventListener
+
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
