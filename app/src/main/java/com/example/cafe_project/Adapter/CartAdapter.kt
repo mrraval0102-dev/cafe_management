@@ -46,7 +46,7 @@ class CartAdapter(private val listItemSelected:ArrayList<ItemsModel>,context: Co
         }
 
         holder.binding.minusEachItem.setOnClickListener {
-            managmentCart.plusItem(listItemSelected,position,object :ChangeNumberItemsListener{
+            managmentCart.minusItem(listItemSelected,position,object :ChangeNumberItemsListener{
                 override fun onChanged() {
                     notifyDataSetChanged()
                     changeNumberItemsListener?.onChanged()
