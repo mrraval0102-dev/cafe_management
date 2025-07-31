@@ -1,7 +1,6 @@
 package com.example.cafe_project.Activity.ViewModel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cafe_project.Activity.Domain.BannerModel
 import com.example.cafe_project.Activity.Domain.CategoryModel
@@ -23,4 +22,7 @@ class MainViewModel:ViewModel() {
         return repository.loadpopular()
     }
 
+    fun loadItems(categoryId: String):LiveData<MutableList<ItemsModel>>{
+        return repository.loadItemCategory(categoryId)
+    }
 }
