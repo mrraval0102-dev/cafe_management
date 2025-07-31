@@ -2,6 +2,7 @@ package com.example.cafe_project.Activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.cafe_project.R
 import com.example.cafe_project.databinding.ActivityMainBinding
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        window.statusBarColor = ContextCompat.getColor(this, R.color.black)
         loadFragment(explorerFragment)
 
         val bottomNav: BottomNavigationView = binding.bottomNavigationView

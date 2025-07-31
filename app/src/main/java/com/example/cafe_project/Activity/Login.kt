@@ -28,7 +28,7 @@ class Login : AppCompatActivity() {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             } else {
-                viewModel.login(email, password)
+                viewModel.login(email, password,sharedPref)
             }
         }
 

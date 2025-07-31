@@ -1,8 +1,11 @@
 package com.example.cafe_project.Activity.ViewModel
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.cafe_project.Activity.Domain.ItemsModel
+import com.example.cafe_project.Activity.Domain.UserModel
 import com.example.cafe_project.Activity.Repository.UserRepository
 
 
@@ -18,9 +21,13 @@ class UserViewModel: ViewModel() {
         }
     }
 
-    fun login(email: String, password: String) {
-        repository.login(email, password) { success ->
+    fun login(email: String, password: String, sharedPref: SharedPreferences) {
+        repository.login(email, password,sharedPref) { success ->
             _signupStatus.postValue(success)
         }
+    }
+
+    fun loadProfile(id: String): LiveData<UserModel?> {
+        return repository.profile(id)
     }
 }
