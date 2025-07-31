@@ -6,16 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.cafe_project.Activity.Domain.CartItemModel
+import com.example.cafe_project.Activity.Domain.ItemsModel
 import com.example.cafe_project.Adapter.CartAdapter
 import com.example.cafe_project.databinding.FragmentCartBinding
+import com.example.project1762.Helper.ManagmentCart
+import com.uilover.project195.Helper.ChangeNumberItemsListener
 
 class CartFragment : Fragment() {
 
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
     private lateinit var cartAdapter: CartAdapter
-    private var cartItems = mutableListOf<CartItemModel>()
+    private lateinit var managmentCart: ManagmentCart
+    private var cartItems = arrayListOf<ItemsModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,33 +31,31 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize sample cart data (you should load from DB or ViewModel)
-        cartItems = mutableListOf(
-            CartItemModel("Espresso", 2, 100.0),
-            CartItemModel("Latte", 1, 150.0),
-            CartItemModel("Cappuccino", 1, 130.0)
-        )
+        managmentCart = ManagmentCart(requireContext())
+        cartItems = managmentCart.getListCart()
 
         setupRecyclerView()
         updateTotalAmount()
 
         binding.checkoutButton.setOnClickListener {
-            // Add checkout logic here
+            // Add your checkout logic here
         }
     }
 
     private fun setupRecyclerView() {
-        cartAdapter = CartAdapter(cartItems) {
-            updateTotalAmount()
-        }
+        cartAdapter = CartAdapter(cartItems, requireContext(), object : ChangeNumberItemsListener {
+            override fun onChanged() {
+                updateTotalAmount()
+            }
+        })
 
         binding.cartRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.cartRecyclerView.adapter = cartAdapter
     }
 
     private fun updateTotalAmount() {
-        val total = cartItems.sumOf { it.price * it.quantity }
-        binding.cartTotalAmount.text = "₹%.2f".format(total)
+        val total = managmentCart.getTotalFee()
+        binding.cartTotalAmount.text = "$%.2f".format(total)
     }
 
     override fun onDestroyView() {

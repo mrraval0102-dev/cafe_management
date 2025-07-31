@@ -1,38 +1,71 @@
 package com.example.cafe_project.Adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cafe_project.Activity.Domain.CartItemModel
-import com.example.cafe_project.databinding.ItemCartBinding
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.request.RequestOptions
+import com.example.cafe_project.Activity.Domain.ItemsModel
+import com.example.cafe_project.databinding.ViewholderCartBinding
+import com.example.project1762.Helper.ManagmentCart
+import com.uilover.project195.Helper.ChangeNumberItemsListener
 
-class CartAdapter(
-    private val items: MutableList<CartItemModel>,
-    private val onCartChanged: () -> Unit
-) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
+class CartAdapter(private val listItemSelected:ArrayList<ItemsModel>,context: Context,
+            var changeNumberItemsListener: ChangeNumberItemsListener? = null
+    ): RecyclerView.Adapter<CartAdapter.Viewholder>() {
+    class Viewholder(val binding:ViewholderCartBinding) : RecyclerView.ViewHolder(binding.root)
 
-    inner class CartViewHolder(val binding: ItemCartBinding) : RecyclerView.ViewHolder(binding.root)
+    private val managmentCart=ManagmentCart(context)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
-        val binding = ItemCartBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CartViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Viewholder {
+        val binding= ViewholderCartBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        return Viewholder(binding)
     }
 
-    override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
-        val item = items[position]
+    override fun onBindViewHolder(holder: Viewholder, position: Int) {
+        val item = listItemSelected[position]
 
-        with(holder.binding) {
-            itemName.text = item.name
-            itemQuantity.text = "Qty: ${item.quantity}"
-            itemPrice.text = "₹%.2f".format(item.price * item.quantity)
+        holder.binding.titleTxt.text=item.title
+        holder.binding.feeEachItem.text="$${item.price}"
+        holder.binding.totalEachItem.text="$${Math.round(item.numberInCart*item.price)}"
+        holder.binding.numberItemTxt.text=item.numberInCart.toString()
 
-            removeButton.setOnClickListener {
-                items.removeAt(position)
-                notifyItemRemoved(position)
-                onCartChanged()
-            }
+        Glide.with(holder.itemView.context).load(item.picUrl[0]).apply (RequestOptions()
+            .transform(CenterCrop())).into(holder.binding.picCart)
+
+        holder.binding.plusEachItem.setOnClickListener {
+            managmentCart.plusItem(listItemSelected,position,object :ChangeNumberItemsListener{
+                override fun onChanged() {
+                    notifyDataSetChanged()
+                    changeNumberItemsListener?.onChanged()
+                }
+
+            })
         }
+
+        holder.binding.minusEachItem.setOnClickListener {
+            managmentCart.minusItem(listItemSelected,position,object :ChangeNumberItemsListener{
+                override fun onChanged() {
+                    notifyDataSetChanged()
+                    changeNumberItemsListener?.onChanged()
+                }
+
+            })
+        }
+
+        holder.binding.removeItemBtn.setOnClickListener {
+            managmentCart.romveItem(listItemSelected,position,object :ChangeNumberItemsListener{
+                override fun onChanged() {
+                    notifyDataSetChanged()
+                    changeNumberItemsListener?.onChanged()
+                }
+
+            })
+        }
+
     }
 
-    override fun getItemCount() = items.size
+    override fun getItemCount(): Int = listItemSelected.size
 }

@@ -59,7 +59,7 @@ class ItemListCategoryAdapter(private val items: MutableList<ItemsModel>)
             title: String,
             price: String,
             rating: Float,
-            imageUrl: String
+            imageUrl: Any
         ) {
             when (holder) {
                 is ViewholderItem1 -> {
