@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.cafe_project.Adapter.CartAdapter
 import com.example.cafe_project.R
@@ -37,17 +38,17 @@ class CartActivity : AppCompatActivity() {
 
     private fun initCartList() {
         binding.apply {
-            listView.layoutManager=LayoutManager(this@CartActivity, LinearLayoutManager.VERTICAL,false)
-            listView.adapter=CartAdapter(
-                managmentCart.getListCart(),this@CartActivity, object :ChangeNumberItemsListener{
+            cartView.layoutManager = LinearLayoutManager(this@CartActivity, LinearLayoutManager.VERTICAL, false)
+            cartView.adapter = CartAdapter(
+                managmentCart.getListCart(), this@CartActivity, object : ChangeNumberItemsListener {
                     override fun onChanged() {
                         calculateCart()
                     }
-
                 }
             )
         }
     }
+
 
     private fun setVariable() {
         binding.backBtn.setOnClickListener { finish() }
