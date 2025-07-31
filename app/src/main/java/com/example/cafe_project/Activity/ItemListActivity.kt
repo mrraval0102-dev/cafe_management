@@ -36,9 +36,9 @@ class ItemListActivity : AppCompatActivity() {
         binding.apply {
             progressBar.visibility = View.VISIBLE
             viewModel.loadItems(id).observe(this@ItemListActivity, Observer {
-                listView.layoutManager = LinearLayoutManager(this@ItemListActivity,
+                cartView.layoutManager = LinearLayoutManager(this@ItemListActivity,
                     LinearLayoutManager.VERTICAL, false)
-                listView.adapter = ItemListCategoryAdapter(it)
+                cartView.adapter = ItemListCategoryAdapter(it)
                 progressBar.visibility = View.GONE
             })
             backBtn.setOnClickListener {
