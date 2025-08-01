@@ -4,16 +4,18 @@ import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.cafe_project.Activity.Domain.ItemsModel
 import com.example.cafe_project.Activity.Domain.UserModel
 import com.example.cafe_project.Activity.Repository.UserRepository
 
+class UserViewModel : ViewModel() {
 
-class UserViewModel: ViewModel() {
-    private val repository= UserRepository()
+    private val repository = UserRepository()
 
     private val _signupStatus = MutableLiveData<Boolean>()
-    val signupStatus: LiveData<Boolean> = _signupStatus
+    val signupStatus: LiveData<Boolean> get() = _signupStatus
+
+    private val _loginStatus = MutableLiveData<Boolean>()
+    val loginStatus: LiveData<Boolean> get() = _loginStatus
 
     fun signup(firstName: String, lastName: String, email: String, password: String) {
         repository.signup(firstName, lastName, email, password) { success ->
@@ -22,8 +24,8 @@ class UserViewModel: ViewModel() {
     }
 
     fun login(email: String, password: String, sharedPref: SharedPreferences) {
-        repository.login(email, password,sharedPref) { success ->
-            _signupStatus.postValue(success)
+        repository.login(email, password, sharedPref) { success ->
+            _loginStatus.postValue(success)
         }
     }
 

@@ -2,27 +2,26 @@ package com.example.cafe_project.Activity.Repository
 
 import android.content.SharedPreferences
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.cafe_project.Activity.Domain.ItemsModel
 import com.example.cafe_project.Activity.Domain.UserModel
-import com.example.cafe_project.Activity.ViewModel.UserViewModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import kotlin.math.log
-
+import com.google.firebase.database.*
 
 class UserRepository {
+
     private val database = FirebaseDatabase.getInstance()
     private val usersRef = database.getReference("Users")
 
-    fun signup(firstName: String, lastName: String, email: String, password: String, onResult: (Boolean) -> Unit) {
-        val userId = usersRef.push().key ?: return onResult(false)
 
+    fun signup(
+        firstName: String,
+        lastName: String,
+        email: String,
+        password: String,
+        onResult: (Boolean) -> Unit
+    ) {
+        val userId = usersRef.push().key ?: return onResult(false)
         val user = UserModel(firstName, lastName, email, password)
 
         usersRef.child(userId).setValue(user)
@@ -34,7 +33,13 @@ class UserRepository {
             }
     }
 
-    fun login(email: String, password: String, sharedPref: SharedPreferences, onResult: (Boolean) -> Unit) {
+
+    fun login(
+        email: String,
+        password: String,
+        sharedPref: SharedPreferences,
+        onResult: (Boolean) -> Unit
+    ) {
         usersRef.orderByChild("email").equalTo(email)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -54,6 +59,7 @@ class UserRepository {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
+                    Log.e("FirebaseLogin", "Login cancelled: ${error.message}")
                     onResult(false)
                 }
             })
@@ -63,23 +69,22 @@ class UserRepository {
     fun profile(id: String): LiveData<UserModel?> {
         val userData = MutableLiveData<UserModel?>()
 
-        usersRef.child(id).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    val user = snapshot.getValue(UserModel::class.java)
-                    Log.d("Firebase", "User: $user")
-                    userData.value = user
-                } else {
+        usersRef.child(id)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    userData.value = if (snapshot.exists()) {
+                        snapshot.getValue(UserModel::class.java)
+                    } else {
+                        null
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("FirebaseProfile", "Profile load cancelled: ${error.message}")
                     userData.value = null
                 }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                userData.value = null
-            }
-        })
+            })
 
         return userData
     }
-
 }

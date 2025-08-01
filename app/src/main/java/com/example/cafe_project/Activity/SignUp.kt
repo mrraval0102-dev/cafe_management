@@ -27,6 +27,7 @@ class SignUp : AppCompatActivity() {
             if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             } else {
+                Toast.makeText(this, "Signup successful!", Toast.LENGTH_SHORT).show()
                 viewModel.signup(firstName, lastName, email, password)
             }
         }
