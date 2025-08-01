@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.nav_explorer -> loadFragment(explorerFragment)
                 R.id.nav_cart -> loadFragment(cartFragment)
-                R.id.nav_favorite -> loadFragment(favoriteFragment)
+//                R.id.nav_favorite -> loadFragment(favoriteFragment)
                 R.id.nav_orders -> loadFragment(ordersFragment)
                 R.id.nav_profile -> loadFragment(profileFragment)
             }

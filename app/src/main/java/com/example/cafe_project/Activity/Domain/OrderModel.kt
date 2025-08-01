@@ -1,9 +1,10 @@
 package com.example.cafe_project.Activity.Domain
 
+import java.io.Serializable
 
 data class OrderModel(
-    val orderId: String,
-    val itemName: String,
-    val price: Double,
-    val status: String
-)
+    var orderId: String = "",
+    var itemName: String = "",
+    var price: Double = 0.0,
+    var status: String = ""
+) : Serializable

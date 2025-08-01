@@ -60,4 +60,9 @@ class ManagmentCart(val context: Context) {
         }
         return fee
     }
+
+    fun clearCart() {
+        tinyDB.remove("CartList")
+    }
+
 }

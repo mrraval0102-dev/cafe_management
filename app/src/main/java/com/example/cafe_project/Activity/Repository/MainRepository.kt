@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.cafe_project.Activity.Domain.BannerModel
 import com.example.cafe_project.Activity.Domain.CategoryModel
 import com.example.cafe_project.Activity.Domain.ItemsModel
+import com.example.cafe_project.Activity.Domain.OrderModel
 
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -100,6 +101,42 @@ class MainRepository {
 
         })
         return  itemsLiveData
+    }
+    fun createOrder(orderId:String, itemName:String,price:Double,status:String, onResult: (Boolean) -> Unit) {
+        val ref = firebaseDatabse.getReference("Orders")
+        val orId = ref.push().key ?: return onResult(false)
+
+        val order = OrderModel(orderId,itemName, price, status)
+
+        ref.child(orId).setValue(order)
+            .addOnSuccessListener {
+                onResult(true)
+            }
+            .addOnFailureListener {
+                onResult(false)
+            }
+    }
+
+
+    fun listOrder(): MutableLiveData<MutableList<OrderModel>> {
+        val listOrdersData=MutableLiveData<MutableList<OrderModel>>()
+        val ref = firebaseDatabse.getReference("Orders")
+        ref.addValueEventListener(object:ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list= mutableListOf<OrderModel>()
+                for (childSnapshot in snapshot.children){
+                    val item= childSnapshot.getValue(OrderModel::class.java)
+                    item?.let { list.add(it) }
+                }
+                listOrdersData.value = list
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+        return listOrdersData
     }
 
 }

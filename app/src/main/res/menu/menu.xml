@@ -11,10 +11,10 @@
         android:icon="@drawable/btn_2"
         android:title="@string/cart" />
 
-    <item
-        android:id="@+id/nav_favorite"
-        android:icon="@drawable/btn_3"
-        android:title="Favourite" />
+<!--    <item-->
+<!--        android:id="@+id/nav_favorite"-->
+<!--        android:icon="@drawable/btn_3"-->
+<!--        android:title="Favourite" />-->
 
     <item
         android:id="@+id/nav_orders"
