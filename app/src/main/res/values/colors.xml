@@ -30,7 +30,7 @@
 
     <!-- Buttons -->
     <color name="button_text">#FFFFFF</color>
-
+    <color name="orange_primary">#FFA500</color>
     <!-- Shadows or dividers -->
     <color name="divider">#E0D4C1</color>
 
